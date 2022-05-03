@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}Категория постов: {{ posts.name }}{% endblock title %}
+{% block content %}
+<div class="col-md-12 pt-3">
+<nav aria-label="breadcrumb">
+
+  <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'base' %}">Главная</a></li>
+      <li class="breadcrumb-item">  
+          <a href="{% url 'posts' %}">
+                Обсуждения  
+          </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{posts.name}}
+      </li>
+  </ol>
+
+</nav>
+
+        
+        <div class="col-md-12">
+          <div class="row">
+            <h4>Категория постов: {{ posts.name }}</h4>
+        <hr>
+            
+            
+            {% for post in posts.categorypost.all %}
+            <div class="card mb-3">
+              
+              <h5 class="card-header"><img src="{{post.profile.avatar.url}}" alt="" style="max-width: 50px; border-radius: 50%;"> {{ post.profile }}</h5>
+              <div class="card-body">
+                <h5 class="card-title">{{ post.title }}</h5>
+                <p class="card-text">Категория: {{ post.category }}</p>
+                <p class="card-text">{{ post.date_pub }}</p>
+                <a href="{% url 'post_detail' post.slug %}" class="btn btn-dark btn-block">Читать пост</a>
+              </div>
+            </div>
+
+            
+            {% endfor %}
+      
+
+          </div>
+        </div>
+      </div>
+{% endblock content %}

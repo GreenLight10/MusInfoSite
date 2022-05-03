@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}Исполнители в жанре {{ genre.name }}{% endblock title %}
+{% block content %}
+
+<div class="col-md-12 pt-3">
+
+
+    <nav aria-label="breadcrumb">
+
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'base' %}">Главная</a></li>
+            <li class="breadcrumb-item">  
+                <a href="{% url 'genres' %}">
+                            Жанры  
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'genre_detail' genre.slug %}">
+                    {{ genre.name }}
+                </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Исполнители в жанре {{ genre.name }}
+            </li>
+        </ol>
+
+    </nav>
+
+    <div class="row">
+
+        
+
+        <h4>Исполнители в жанре {{ genre.name }}:</h4>
+        <hr>
+
+        {% for artist in genre.genresartist.all %}
+        <div class="card col-md-3 p-0 mb-3 mt-3">
+
+            <img src="{{ artist.image.url }}" class="card-img-top">
+            <div class="card-body text-center">
+            <h5 class="card-title"><a href="{% url 'artist_detail' artist.slug %}" class="text-decoration-none">
+                {{ artist.name }}
+            </a></h5>
+            </div>
+
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">Жанр: <strong>{{ artist.genre }}</strong></li>
+          </ul>
+
+        </div>
+        {% endfor %}
+
+</div>
+
+ 
+                        
+</div>
+       
+{% endblock content %}

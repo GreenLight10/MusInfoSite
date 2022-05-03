@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Личный кабинет{% endblock title %}
+{% block content %}
+        <h4 class="text-center mt-3">Личный кабинет</h4>
+        <hr>
+        <div class="col-md-12">
+          <div class="row">
+            
+            <h5 class="mt-3">Ваши посты:</h5>
+            <hr>
+            {% for post in posts.all %}
+            <div class="card mb-3">
+              
+              <h5 class="card-header"><img src="{{post.profile.avatar.url}}" alt="" style="max-width: 50px; border-radius: 50%;"> {{ post.profile }}</h5>
+              <div class="card-body">
+                <h5 class="card-title">{{ post.title }}</h5>
+                <p class="card-text">Категория: {{ post.category }}</p>
+                <p class="card-text">{{ post.date_pub }}</p>
+                <a href="{% url 'post_detail' post.slug %}" class="btn btn-dark btn-block">Читать пост</a>
+              </div>
+            </div>
+            {% endfor %}
+
+          </div>
+        </div>
+{% endblock content %}

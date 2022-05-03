@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}Альбомы {{ albums.name }}{% endblock title %}
+{% block content %}
+<div class="col-md-12 pt-3">
+    <nav aria-label="breadcrumb">
+
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'base' %}">Главная</a></li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'genre_detail' albums.genre.slug %}">
+                    {{ albums.genre.name }}
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'artist_detail' albums.slug %}">
+                    {{ albums.name }}
+                </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">Альбомы {{ albums.name }}
+            </li>
+        </ol>
+
+    </nav>
+
+    <div class="row">
+
+            <h4>Альбомы {{ albums.name }}:</h4>
+            <hr>
+            
+            {% if albums.albums.all %}
+            
+                    {% for album in albums.albums.all %}
+                    
+                    <div class="card col-md-3 p-0 mb-3 mt-3">
+
+                        <img src="{{ album.image.url }}" class="card-img-top">
+                        <div class="card-body text-center">
+                        <h5 class="card-title"><a href="{% url 'album_detail' album.slug %}" class="text-decoration-none">
+                            {{ album.name }}
+                        </a></h5>
+                        </div>
+
+                        <ul class="list-group list-group-flush">
+                          <li class="list-group-item">Год релиза: <strong>{{ album.release_date }}</strong></li>
+                      </ul>
+
+                    </div>
+
+                    {% endfor %}
+
+            {% else %}
+            <h5 class="text-center">Альбомы {{ albums.name }} появятся позже</h5>
+            {% endif %}
+ 
+            
+
+            
+            
+
+        
+
+    </div>
+
+
+</div>
+{% endblock content %}

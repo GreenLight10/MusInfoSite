@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Альбом {{ album.name }}{% endblock title %}
+{% block content %}
+<div class="col-md-12 pt-3">
+    <nav aria-label="breadcrumb">
+
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'base' %}">Главная</a></li>
+            <li class="breadcrumb-item">
+                {% for artist in album.albumsartist.all %}
+                <a href="{% url 'genre_detail' artist.genre.slug %}">
+                            {{ artist.genre }}   
+                </a>
+                {% endfor %}
+            </li>
+            <li class="breadcrumb-item">
+                {% for artist in album.albumsartist.all %}
+                <a href="{% url 'artist_detail' artist.slug %}">
+                    {{ artist.name }}
+                </a>
+                {% endfor %}
+            </li>
+            <li class="breadcrumb-item">
+                {% for artist in album.albumsartist.all %}
+                <a href="{% url 'albums' artist.slug %}">
+                    Альбомы
+                    {{ artist.name }}
+                </a>
+                {% endfor %}
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Альбом {{ album.name }}
+            </li>
+        </ol>
+
+    </nav>
+
+    <div class="row">
+
+        
+
+            <h4>{{ album.name }}</h4>
+            <hr>
+
+
+    <iframe frameborder="0" style="border:none;width:100%;height:500px;" width="100%" height="auto" src="{{ album.url }}"></iframe>
+
+    </div>
+
+
+</div>
+        {% endblock content %}

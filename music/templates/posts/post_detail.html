@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}{{ post.title }}{% endblock title %}
+{% block content %}
+
+<div class="col-md-12 pt-3">
+  <nav aria-label="breadcrumb">
+  
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'base' %}">Главная</a></li>
+        <li class="breadcrumb-item">  
+            <a href="{% url 'posts' %}">
+                Обсуждения 
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'post_detail_cat' post.category.slug %}">
+                {{post.category}}
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+          {{post.title}}
+        </li>
+    </ol>
+  
+  </nav>
+
+
+
+        
+        <div class="col-md-12">
+          <div class="row">
+            <h4>{{ post.title }}</h4>
+        <hr>
+            
+            
+            <h5><img src="{{post.profile.avatar.url}}" alt="" style="max-width: 50px; border-radius: 50%;"> {{ post.profile }}: {{ post.text }}</h5>
+            
+            <p>Категория: {{ post.category }}</p>
+            <p>{{ post.date_pub }}</p>
+            {% if post.image %}
+            <p>Изображение к посту:</p>
+            <img src="{{post.image.url}}" alt="" style="max-width: 70%; margin: 0px auto;" class="mb-3">
+            
+            {% endif %}
+            
+            <hr>
+      
+
+          </div>
+        </div>
+
+
+        
+
+
+
+
+
+
+
+         <!-- Comments section -->
+
+     
+    
+
+    
+      
+      
+        
+    
+        <form method="post">
+          {% csrf_token %}
+          {{form|crispy}}
+          
+          <input type="submit" name="form" value="Оставить комментарий" class="btn btn-dark btn-block">
+        </form>
+      
+    
+
+    
+
+    <div class="row">
+      {% for comment in post.comments.all %}
+      <div class="col-12 mt-3 mb-3">
+                      <div class="media border p-3">
+                          <div class="media-body">
+                                    
+                                    <h4><img src="{{comment.author.profile.avatar.url}}" alt="" style="max-width: 40px; border-radius: 50%;"> {{comment.author}}</h4>
+                                    
+                                    <p>{{comment.body}}</p>
+                                  <p>{{comment.date_added}}</p>
+                                  
+                            {% for reply in comment.replies.all %}
+                            <div class="card mb-3">
+                                        <div class="media p-3">
+                                        <div class="media-body">
+                                                <h5><img src="{{reply.author.profile.avatar.url}}" alt="" style="max-width: 30px; border-radius: 50%;"> {{reply.author}}</h5>
+                                                <p>{{reply.reply_body}}</p>
+                                                <p>{{reply.date_added}}</p>
+                                          </div>
+                                        </div>
+                                      </div>
+                            {% endfor %}
+                            
+                            <!-- form to post reply -->
+
+                            
+
+                            <form method="post">
+                                  <input type="hidden" name="comment.id" value="{{comment.id}}">
+                                  <input type="hidden" name="comment.comm_name" value="{{comment.comm_name}}">
+                                  {% csrf_token %}
+                                  {{form2|crispy}}
+                                  <input type="submit" name="form2" value="Ответить" class="btn btn-dark btn-block">
+                            </form>
+                          </div>
+                  </div>
+      </div>
+      {% endfor %}
+    </div>
+
+</div>
+
+{% endblock content %}
